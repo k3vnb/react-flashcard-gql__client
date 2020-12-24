@@ -56,7 +56,40 @@ const AllFlashcards = () => {
   if (error) return `Error! ${error.message}`;
   return (
     <div className="container mt-3">
-      More content
+      <h1 className="title">
+        AllFlashcards
+        <button
+          className="button is-info is-light ml-3"
+          type="button"
+          onClick={() => {
+            data.allFlashcards.map((flashcard) => {
+              if (flashcard.isAnswered){
+                updateFlashcard({
+                  variables:{
+                    _id: flashcard._id,
+                    isAnswered: false,
+                  },
+                });
+              }
+            });
+          }}
+        >
+          Reset Flashcards
+        </button>
+      </h1>
+      <div className="box has-background-info">
+        <div className="columns is-multiline">
+          {data.allFlashcards.map((flashcard) => {
+            if (!flashcard.isAnswered){
+              return (
+                <div className="column is-one-third" key={flashcard._id}>
+                  <Flashcard flashcard={flashcard} deleteFlashcard={deleteFlashcard} />
+                </div>
+              );
+            }
+          })}
+        </div>
+      </div>
     </div>
   );
 }
